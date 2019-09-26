@@ -1,0 +1,19 @@
+# Exclude contents of .files//db/dumps
+files/db/dumps/*
+!files/db/dumps/.gitkeep
+
+# Exclude contents of ./files/web/logs
+files/web/logs/*
+!files/web/logs/.gitkeep
+
+# Exclude everything in ./files/web/sites except default.conf
+files/web/sites/*
+!files/web/sites/default.conf
+
+# Exclude everything in ./files/php/conf except sendmail.ini
+files/php/conf/*
+!files/php/conf/sendmail.ini
+
+# Exclude contents of ./web/code
+web/code/*
+!web/code/.gitkeep

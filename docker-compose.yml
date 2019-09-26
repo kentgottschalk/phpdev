@@ -1,0 +1,62 @@
+version: '2'
+
+services:
+  php:
+    build:  
+      context: .
+      dockerfile: php.Dockerfile
+    volumes:
+      - ./web:/var/www
+    depends_on: 
+      - db
+      - mail
+  web:
+    build:
+      context: .
+      dockerfile: web.Dockerfile
+    volumes:
+      - ./web:/var/www
+      - ./files/web/sites:/etc/nginx/sites-available
+      - ./files/web/logs:/var/log/nginx
+    ports:
+      - 80:80 
+    depends_on:
+      - php
+  db:
+    image: yobasystems/alpine-mariadb
+    command: '--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: db
+      MYSQL_PASSWORD: db
+    volumes:
+      - db:/var/lib/mysql
+      - ./files/db/dumps:/docker-entrypoint-initdb.d
+  memcached:
+    image: memcached:1.5-alpine
+    command: ["memcached", "-m", "128"]
+  mail:
+    image: mailhog/mailhog
+    ports:
+      - 8025:8025
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+  drush:
+    image: drush/drush:8-alpine
+    volumes:
+      - ./web:/app
+  node:
+    build:
+      context: .
+      dockerfile: node.Dockerfile
+    volumes:
+      - ./web:/app
+
+volumes:
+  db:
+    driver: local
