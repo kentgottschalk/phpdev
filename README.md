@@ -71,4 +71,31 @@ $ docker-compose run --rm --entrypoint sh node
 
 ## Xdebug
 
-Coming up...
+For performance reasons xdebug is not enabled or configured by default. Follow the instructions below to get it up and running.
+
+If you didn't already start by copying the example xdebug configuration file:
+
+```
+$ cp files/examples/xdebug.ini files/php/conf/
+```
+
+You may need to edit some stuff here. It's recommended to not use autostartm, set the remote host correctly and use IDE-key when you want to debug. This way you can enable xdebug pr. request when you want to debug as opposed to starting xdebug on every request. The example file uses host.docker.internal, [which will point back to host machine IP if using Docker desktop for Mac or Windows](https://docs.docker.com/docker-for-windows/networking/)
+
+Also, the default IDE-key in the example configuration is for Visual code. So if you use another IDE remember to change this accordingly.
+
+Remember to rebuild the image if you copied or changed xdebug configuration:
+
+```
+$ docker-compose build php
+```
+
+To enable xdebug in the container run following command:
+
+```
+$ docker-compose exec php docker-php-ext-enable xdebug
+```
+
+You will need to restart php-fpm for the changes be picked up:
+```
+$ docker-compose restart php
+```
