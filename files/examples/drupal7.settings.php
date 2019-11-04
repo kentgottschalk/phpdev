@@ -23,9 +23,12 @@ $conf['error_level'] = 2;
 $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
 
 // Ensure fast tracks for files not found.
+$conf['404_fast_paths_exclude'] = '/\/(?:styles)|(?:system\/files)\//';
+$conf['404_fast_paths'] = '/\.(?:txt|png|gif|jpe?g|css|js|ico|swf|flv|cgi|bat|pl|dll|exe|asp)$/i';
+$conf['404_fast_html'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>404 Not Found</title></head><body><h1>Not Found</h1><p>The requested URL "@path" was not found on this server.</p></body></html>';
 drupal_fast_404();
 
-/** 
+/**
  * Environment indicator.
  *
  * See: https://www.drupal.org/node/1992866
@@ -39,7 +42,7 @@ $conf['environment_indicator_overwritten_fixed'] = FALSE;
 // This config can be used for stage file proxy module.
 # $conf['stage_file_proxy_origin'] = 'https://example.com';
 
-/** 
+/**
  * Memcached.
  */
 // Uncomment these when eneabling memcache module.
@@ -91,9 +94,9 @@ $conf['memcache_bins'] = array(
   'cache' => 'default',
 );
 
-/** 
+/**
  * Varnish.
- * 
+ *
  * Uncomment and add key.
  */
 // Tell Drupal it's behind a proxy.
