@@ -80,9 +80,6 @@ RUN { \
 # Default production configuration is optimized and recommended to use
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
-# Add own php configuration
-COPY files/php/conf $PHP_INI_DIR/conf.d/
-
 COPY --from=composer:1.9.1 /usr/bin/composer /usr/bin/composer
 
 # Install Drush using Composer.
@@ -90,5 +87,13 @@ RUN composer global require drush/drush:"8.1.16" --prefer-dist \
   && rm -f /usr/local/bin/drush \
   && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/drush \
   && drush core-status -y
+
+# Drush is basically useless without a mysql client.
+RUN set -eux \
+  && apk add --no-cache --update mariadb-client \
+  && rm -f /var/cache/apk/*
+
+# Add own php configuration
+COPY files/php/conf $PHP_INI_DIR/conf.d/
 
 WORKDIR /var/www
