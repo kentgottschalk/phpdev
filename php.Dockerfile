@@ -1,8 +1,10 @@
 # Inspired by the official Drupal alpine image
 # See: https://github.com/docker-library/drupal
 
+ARG PHP_VERSION
+
 # from https://www.drupal.org/docs/8/system-requirements/drupal-8-php-requirements
-FROM php:7.0-fpm-alpine
+FROM php:${PHP_VERSION}-fpm-alpine
 
 # install the PHP extensions we need
 # Memcahed installation: https://stackoverflow.com/a/41575677
@@ -24,7 +26,6 @@ RUN set -eux \
     zlib-dev \
     libmemcached-dev \
     cyrus-sasl-dev \
-    libmcrypt-dev \
     libxml2-dev \
     imagemagick-dev \
     libtool \
@@ -32,18 +33,26 @@ RUN set -eux \
     --with-freetype-dir=/usr/include/ \
     --with-jpeg-dir=/usr/include/ \
     --with-png-dir=/usr/include/ \
-  && docker-php-ext-configure mcrypt \
   && docker-php-ext-install -j "$(nproc)" \
     gd \
     opcache \
     pdo_mysql \
     pdo_pgsql \
     zip \
-    mcrypt \
     soap \
-    && pecl install memcached-3.0.4 \
+    && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install memcached-2.2.0; \
+    else \
+      pecl install memcached-3.0.4; \
+    fi \
     && pecl install imagick-3.4.4 \
-    && pecl install xdebug-2.7.2 \
+    && \
+    if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
+      pecl install xdebug-2.5.5; \
+    else \
+      pecl install xdebug-2.7.2; \
+    fi \
     # Do not enable xdebug by default for performance reasons.
     && docker-php-ext-enable memcached imagick \
     && runDeps="$( \
@@ -73,5 +82,13 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
 
 # Add own php configuration
 COPY files/php/conf $PHP_INI_DIR/conf.d/
+
+COPY --from=composer:1.9.1 /usr/bin/composer /usr/bin/composer
+
+# Install Drush using Composer.
+RUN composer global require drush/drush:"8.1.16" --prefer-dist \
+  && rm -f /usr/local/bin/drush \
+  && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/drush \
+  && drush core-status -y
 
 WORKDIR /var/www

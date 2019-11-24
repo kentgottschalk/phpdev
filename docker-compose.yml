@@ -1,10 +1,12 @@
-version: '2'
+version: '3'
 
 services:
   php:
     build:  
       context: .
       dockerfile: php.Dockerfile
+      args: 
+        - PHP_VERSION=${PHP_VERSION:-5.6}
     volumes:
       - ./web:/var/www
     depends_on: 

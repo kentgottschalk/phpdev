@@ -1,0 +1,2 @@
+# Set the PHP version used by php-fpm, drush and composer.
+PHP_VERSION=7.2
