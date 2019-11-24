@@ -19,7 +19,6 @@ services:
     volumes:
       - ./web:/var/www
       - ./files/web/sites:/etc/nginx/sites-available
-      - ./files/web/logs:/var/log/nginx
     ports:
       - 80:80 
     depends_on:

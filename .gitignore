@@ -2,10 +2,6 @@
 files/db/dumps/*
 !files/db/dumps/.gitkeep
 
-# Exclude contents of ./files/web/logs
-files/web/logs/*
-!files/web/logs/.gitkeep
-
 # Exclude everything in ./files/web/sites except default.conf
 files/web/sites/*
 !files/web/sites/default.conf
@@ -17,3 +13,6 @@ files/php/conf/*
 # Exclude contents of ./web/code
 web/code/*
 !web/code/.gitkeep
+
+# Ignore project specific env file.
+.env
