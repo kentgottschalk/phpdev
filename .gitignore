@@ -16,3 +16,6 @@ web/code/*
 
 # Ignore project specific env file.
 .env
+
+# Ignore visual code configuration folder.
+.vscode
