@@ -1,0 +1,15 @@
+# ignore .git folder
+.git
+
+# Visual code configuration:
+.vscode
+
+# The docker-compose configuration file doesn't need to be in build context.
+docker-compose.yml
+
+# Readme
+README.md
+
+# Exclude the web directory from build context. This is where the application
+# resides and excluding can optimize the build process considerably.
+web
