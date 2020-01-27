@@ -58,14 +58,16 @@ services:
     volumes:
       - ./web:/app
   varnish:
-    image: thiagofigueiro/varnish-alpine-docker:3.6
+    build:
+      context: .
+      dockerfile: varnish.Dockerfile
     environment:
       VARNISH_MEMORY: 128m
       VARNISH_CONFIG_FILE: /etc/varnish/default.vcl
     ports:
       - 80:80
     volumes:
-      - './files/varnish/default.vcl:/etc/varnish/default.vcl'
+      - ./files/varnish/default.vcl:/etc/varnish/default.vcl
 
 
 volumes:
