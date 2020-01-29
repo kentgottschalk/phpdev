@@ -40,6 +40,7 @@ RUN set -eux \
     pdo_pgsql \
     zip \
     soap \
+    sockets \
     && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
       pecl install memcached-2.2.0; \
