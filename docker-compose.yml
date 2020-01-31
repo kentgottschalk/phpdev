@@ -62,12 +62,14 @@ services:
       context: .
       dockerfile: varnish.Dockerfile
     environment:
-      VARNISH_MEMORY: 128m
-      VARNISH_CONFIG_FILE: /etc/varnish/default.vcl
+      VARNISH_MEMORY: ${VARNISH_MEMORY:-128m}
+      VARNISH_CONFIG_FILE: ${VARNISH_CONFIG_FILE}
+      VARNISH_BACKEND_ADDRESS: ${VARNISH_BACKEND_ADDRESS:-web}
+      VARNISH_BACKEND_PORT: ${VARNISH_BACKEND_PORT:-80}
     ports:
       - 80:80
     volumes:
-      - ./files/varnish/default.vcl:/etc/varnish/default.vcl
+      - ./files/varnish/config:/etc/varnish
 
 
 volumes:

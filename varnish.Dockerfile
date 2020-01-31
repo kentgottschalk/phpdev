@@ -1,4 +1,4 @@
-FROM thiagofigueiro/varnish-alpine-docker:3.6
+FROM thiagofigueiro/varnish-alpine-docker:3.10
 
 # Replace the start up script to enable admin terminal and provide some
 # additional options to the varnish deamon start up command. For extsensive

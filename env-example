@@ -1,3 +1,13 @@
 # Set the PHP version used by php-fpm, drush and composer.
 # Supported versions: 5.6, 7.0, 7.1, 7.2 and 7.3
 PHP_VERSION=7.2
+
+# Set the amount of memory allocated to Varnish
+VARNISH_MEMORY=128m
+# Varnish configuration: specify backend and port or use a custom VCL.
+VARNISH_BACKEND_ADDRESS=web
+VARNISH_BACKEND_PORT=80
+# Outcomment and enter name of your custom VCL. Remember to copy your VLC to 
+# files/varnish/config. This will override backend and port config above so 
+# remember to specify these configs in your custom VCL.
+# VARNISH_CONFIG_FILE=default.vcl
