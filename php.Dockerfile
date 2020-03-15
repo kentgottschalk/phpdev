@@ -42,9 +42,9 @@ RUN set -eux \
     soap \
     && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install memcached-2.2.0; \
+      pecl install memcache-3.0.8; \
     else \
-      pecl install memcached-3.0.4; \
+      pecl install memcache-4.0.5.2; \
     fi \
     && pecl install imagick-3.4.4 \
     && \
@@ -54,7 +54,7 @@ RUN set -eux \
       pecl install xdebug-2.7.2; \
     fi \
     # Do not enable xdebug by default for performance reasons.
-    && docker-php-ext-enable memcached imagick \
+    && docker-php-ext-enable memcache imagick \
     && runDeps="$( \
     scanelf --needed --nobanner --format '%n#p' --recursive /usr/local \
       | tr ',' '\n' \
